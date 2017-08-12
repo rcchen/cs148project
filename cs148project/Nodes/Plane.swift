@@ -16,7 +16,7 @@ class Plane: SCNNode {
     init(anchor: ARPlaneAnchor) {
         let width = CGFloat(anchor.extent.x)
         let length = CGFloat(anchor.extent.z)
-        let planeHeight = CGFloat(0.01)
+        let planeHeight = CGFloat(0.001)
 
         self.anchor = anchor
         self.planeGeometry = SCNBox(width: width, height: planeHeight, length: length, chamferRadius: 0)
@@ -24,10 +24,11 @@ class Plane: SCNNode {
         super.init()
         
         let material = SCNMaterial()
-        material.diffuse.contents = #imageLiteral(resourceName: "grass")
+        material.diffuse.contents = #imageLiteral(resourceName: "grid")
+        self.planeGeometry.materials = [ material ]
         
-        let transparentMaterial = SCNMaterial()
-        transparentMaterial.diffuse.contents = UIColor(white: 1.0, alpha: 0.0)
+//        let transparentMaterial = SCNMaterial()
+//        transparentMaterial.diffuse.contents = UIColor(white: 1.0, alpha: 0.0)
 
         let planeNode = SCNNode(geometry: self.planeGeometry)
         planeNode.position = SCNVector3Make(0, Float(-planeHeight / 2), 0)

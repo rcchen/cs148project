@@ -35,6 +35,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
             ARSCNDebugOptions.showFeaturePoints,
             ARSCNDebugOptions.showWorldOrigin
         ]
+
+        // add debug stats
+        self.sceneView.showsStatistics = true
     }
 
     
@@ -42,7 +45,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
         super.viewWillAppear(animated)
         
         // Create a session configuration
-        let configuration = ARWorldTrackingSessionConfiguration()
+        let configuration = ARWorldTrackingConfiguration()
         
         // plane tracking
         configuration.planeDetection = .horizontal
@@ -122,16 +125,14 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
         if (sender.state == .ended) {
             panVelocity = sender.velocity(in: self.sceneView)
             
-            let normalizedPanVelocity = Vector2(Scalar(panVelocity!.x), Scalar(panVelocity!.y)).normalized()
-
-            let startPosition = SCNVector3Make(0, 0, 0)
+            let normalizedPanVelocity = panVelocity?.normalized()
             let velocity = SCNVector3Make(
-                -normalizedPanVelocity.y,
-                normalizedPanVelocity.x,
+                Float(-normalizedPanVelocity!.y),
+                Float(normalizedPanVelocity!.x),
                 1
             )
             
-            self.throwBall(startPosition: startPosition, velocity: velocity)
+            self.throwBall(velocity: velocity)
         }
     }
 
@@ -172,20 +173,35 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
         self.sceneView.scene.rootNode.addChildNode(node)
     }
 
-    func throwBall(startPosition: SCNVector3, velocity: SCNVector3) {
+    /**
+     * Add a hoop somewhere within the scene, ideally not too far away from the origin.
+     */
+    func addHoopToScene() {
+        
+    }
+    
+    /**
+     * Throw a ball at the defined velocity. Start position is always from the current point of view.
+     */
+    func throwBall(velocity: SCNVector3) {
         let radius = CGFloat(0.1)
         
+        // initialize the ball that we want to use
         let sphere = SCNSphere(radius: radius)
         let node = SCNNode(geometry: sphere)
 
+        // get necessary data from the scene camera
         let camera = self.sceneView.session.currentFrame?.camera
-        
-        let m1 = self.convertCGMatrixToMatrix(mat: (camera?.transform)!)
-        
-        let pov = self.sceneView.pointOfView?.position
-        let mHardcodedDirection = SCNVector3Make(-4 * velocity.x, velocity.y, -4)
-        let direction = m1 * Vector4(mHardcodedDirection.x, mHardcodedDirection.y, mHardcodedDirection.z, 1)
+        let transformMatrix = camera?.transform
 
+        // create start position
+        let pov = self.sceneView.pointOfView?.position
+        
+        // cmompute the overall direction to take
+        let adjustedVelocity = float4(-4 * velocity.x, velocity.y, -4, 1)
+        let direction = transformMatrix! * adjustedVelocity
+
+        // transform into an SCNVector
         let mSCNDirection = SCNVector3Make(direction.x, direction.y, direction.z)
 
         node.position = pov!
@@ -194,28 +210,5 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
         node.physicsBody?.mass = 2.0
         
         self.sceneView.scene.rootNode.addChildNode(node)
-    }
-
-    func convertCGMatrixToMatrix(mat: matrix_float4x4) -> Matrix4 {
-        // converts a CGMatrix to a Matrix4 object
-
-        return Matrix4(
-            mat[0][0],
-            mat[0][1],
-            mat[0][2],
-            mat[0][3],
-            mat[1][0],
-            mat[1][1],
-            mat[1][2],
-            mat[1][3],
-            mat[2][0],
-            mat[2][1],
-            mat[2][2],
-            mat[2][3],
-            mat[3][0],
-            mat[3][1],
-            mat[3][2],
-            mat[3][3]
-        )
     }
 }

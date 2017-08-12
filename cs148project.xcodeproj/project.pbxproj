@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		337229DD1F3F9F4600A03F17 /* CGPoint+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337229DC1F3F9F4600A03F17 /* CGPoint+Extensions.swift */; };
 		9F310D771F3C1F2D00D9D963 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F310D761F3C1F2D00D9D963 /* AppDelegate.swift */; };
 		9F310D791F3C1F2D00D9D963 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F310D781F3C1F2D00D9D963 /* art.scnassets */; };
 		9F310D7B1F3C1F2D00D9D963 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F310D7A1F3C1F2D00D9D963 /* ViewController.swift */; };
@@ -15,11 +16,10 @@
 		9F310D831F3C1F2D00D9D963 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F310D811F3C1F2D00D9D963 /* LaunchScreen.storyboard */; };
 		9F310D8C1F3C277B00D9D963 /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F310D8B1F3C277B00D9D963 /* Plane.swift */; };
 		9F4EF90F1F3EE80E00E77672 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F4EF90E1F3EE7F700E77672 /* Accelerate.framework */; };
-		9F4EF9141F3EEBB700E77672 /* VectorMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4EF9121F3EEBB700E77672 /* VectorMath.swift */; };
-		9F4EF9151F3EEBB700E77672 /* VectorMath+SceneKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4EF9131F3EEBB700E77672 /* VectorMath+SceneKit.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		337229DC1F3F9F4600A03F17 /* CGPoint+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Extensions.swift"; sourceTree = "<group>"; };
 		9F310D731F3C1F2D00D9D963 /* cs148project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cs148project.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F310D761F3C1F2D00D9D963 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9F310D781F3C1F2D00D9D963 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -30,8 +30,6 @@
 		9F310D841F3C1F2D00D9D963 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9F310D8B1F3C277B00D9D963 /* Plane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plane.swift; sourceTree = "<group>"; };
 		9F4EF90E1F3EE7F700E77672 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
-		9F4EF9121F3EEBB700E77672 /* VectorMath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VectorMath.swift; path = ../../../../github.com/nicklockwood/VectorMath/VectorMath/VectorMath.swift; sourceTree = "<group>"; };
-		9F4EF9131F3EEBB700E77672 /* VectorMath+SceneKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "VectorMath+SceneKit.swift"; path = "../../../../github.com/nicklockwood/VectorMath/VectorMath/VectorMath+SceneKit.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,6 +44,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		337229D91F3F9ED200A03F17 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				337229DC1F3F9F4600A03F17 /* CGPoint+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		9F310D6A1F3C1F2D00D9D963 = {
 			isa = PBXGroup;
 			children = (
@@ -66,7 +72,7 @@
 		9F310D751F3C1F2D00D9D963 /* cs148project */ = {
 			isa = PBXGroup;
 			children = (
-				9F4EF9101F3EEB7F00E77672 /* Libraries */,
+				337229D91F3F9ED200A03F17 /* Extensions */,
 				9F310D8A1F3C276600D9D963 /* Nodes */,
 				9F310D761F3C1F2D00D9D963 /* AppDelegate.swift */,
 				9F310D781F3C1F2D00D9D963 /* art.scnassets */,
@@ -93,23 +99,6 @@
 				9F4EF90E1F3EE7F700E77672 /* Accelerate.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		9F4EF9101F3EEB7F00E77672 /* Libraries */ = {
-			isa = PBXGroup;
-			children = (
-				9F4EF9111F3EEB8300E77672 /* VectorMath */,
-			);
-			path = Libraries;
-			sourceTree = "<group>";
-		};
-		9F4EF9111F3EEB8300E77672 /* VectorMath */ = {
-			isa = PBXGroup;
-			children = (
-				9F4EF9121F3EEBB700E77672 /* VectorMath.swift */,
-				9F4EF9131F3EEBB700E77672 /* VectorMath+SceneKit.swift */,
-			);
-			path = VectorMath;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -184,10 +173,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9F4EF9151F3EEBB700E77672 /* VectorMath+SceneKit.swift in Sources */,
-				9F4EF9141F3EEBB700E77672 /* VectorMath.swift in Sources */,
 				9F310D7B1F3C1F2D00D9D963 /* ViewController.swift in Sources */,
 				9F310D8C1F3C277B00D9D963 /* Plane.swift in Sources */,
+				337229DD1F3F9F4600A03F17 /* CGPoint+Extensions.swift in Sources */,
 				9F310D771F3C1F2D00D9D963 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
