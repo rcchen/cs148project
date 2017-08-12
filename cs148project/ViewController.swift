@@ -8,6 +8,7 @@
 
 import UIKit
 import SceneKit
+import Accelerate
 import ARKit
 
 class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDelegate, UIGestureRecognizerDelegate {
@@ -22,16 +23,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
 
         // container for all of the geometry
         let scene = SCNScene()
-        
-        // 3d cube
-        let box = SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0.0)
-        
-        // node that wraps the cube
-        let node = SCNNode(geometry: box)
-        node.position = SCNVector3Make(0, 0, -0.5)
-        
-        // add to the root node
-        scene.rootNode.addChildNode(node)
         
         // set the scene to the view
         self.sceneView.scene = scene
@@ -92,53 +83,57 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
         let plane = Plane(anchor: planeAnchor)
         node.addChildNode(plane)
     }
-/*
-    // Override to create and configure nodes for anchors added to the view's session.
-    func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
-        let node = SCNNode()
-     
-        return node
-    }
-*/
     
     func session(_ session: ARSession, didFailWithError error: Error) {
         // Present an error message to the user
-        
     }
     
     func sessionWasInterrupted(_ session: ARSession) {
         // Inform the user that the session has been interrupted, for example, by presenting an overlay
-        
     }
     
     func sessionInterruptionEnded(_ session: ARSession) {
         // Reset tracking and/or remove existing anchors if consistent tracking is required
-        
     }
 
-    // MARK: - HitTest (TODO FIGURE OUT THE RIGHT DELEGATE TO CALL THIS)
+    // MARK: - UIGestureRecognizerDelegate
 
     @IBAction func handleTap(_ sender: UITapGestureRecognizer) {
+        // action function called when a user taps on the screen
+        // used for testing cube placement in the environment
+
         let tapPoint = sender.location(in: self.sceneView)
         let result = self.sceneView.hitTest(tapPoint, types: ARHitTestResult.ResultType.existingPlaneUsingExtent)
         
         if (result.count == 0) { return }
         
         let hitResult = result.first
-//        self.insertGeometry(hitResult: hitResult!)
-        self.throwBall(hitResult: hitResult!)
+        self.insertGeometry(hitResult: hitResult!)
     }
 
-//    @IBAction func handleSwipe(_ sender: UISwipeGestureRecognizer) {
-//        let swipeStartPoint = sender.location(in: self.sceneView)
-//        let swipeDirection = sender.direction
-//
-//        print(swipeDirection)
-//
-//        if (swipeDirection == .up) {
-//
-//        }
-//    }
+    var panStart: CGPoint? = nil
+    var panVelocity: CGPoint? = nil
+    
+    @IBAction func onPan(_ sender: UIPanGestureRecognizer) {
+        if (sender.state == .began) {
+            panStart = sender.location(in: self.sceneView)
+        }
+
+        if (sender.state == .ended) {
+            panVelocity = sender.velocity(in: self.sceneView)
+            
+            let normalizedPanVelocity = Vector2(Scalar(panVelocity!.x), Scalar(panVelocity!.y)).normalized()
+
+            let startPosition = SCNVector3Make(0, 0, 0)
+            let velocity = SCNVector3Make(
+                -normalizedPanVelocity.y,
+                normalizedPanVelocity.x,
+                1
+            )
+            
+            self.throwBall(startPosition: startPosition, velocity: velocity)
+        }
+    }
 
     // MARK: - Utility methods
     
@@ -173,28 +168,54 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
             hitResult.worldTransform.columns.3.y + insertionYOffset,
             hitResult.worldTransform.columns.3.z
         )
-        
+
         self.sceneView.scene.rootNode.addChildNode(node)
     }
 
-    func throwBall(hitResult: ARHitTestResult) {
+    func throwBall(startPosition: SCNVector3, velocity: SCNVector3) {
         let radius = CGFloat(0.1)
         
         let sphere = SCNSphere(radius: radius)
         let node = SCNNode(geometry: sphere)
 
-        let position = SCNVector3Make(
-            hitResult.worldTransform.columns.3.x,
-            hitResult.worldTransform.columns.3.y,
-            hitResult.worldTransform.columns.3.z
-        )
-        let direction = SCNVector3Make(0, 3, -2)
+        let camera = self.sceneView.session.currentFrame?.camera
         
-        node.position = position
+        let m1 = self.convertCGMatrixToMatrix(mat: (camera?.transform)!)
+        
+        let pov = self.sceneView.pointOfView?.position
+        let mHardcodedDirection = SCNVector3Make(-4 * velocity.x, velocity.y, -4)
+        let direction = m1 * Vector4(mHardcodedDirection.x, mHardcodedDirection.y, mHardcodedDirection.z, 1)
+
+        let mSCNDirection = SCNVector3Make(direction.x, direction.y, direction.z)
+
+        node.position = pov!
         node.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
-        node.physicsBody?.applyForce(direction, asImpulse: true)
+        node.physicsBody?.applyForce(mSCNDirection, asImpulse: true)
         node.physicsBody?.mass = 2.0
         
         self.sceneView.scene.rootNode.addChildNode(node)
+    }
+
+    func convertCGMatrixToMatrix(mat: matrix_float4x4) -> Matrix4 {
+        // converts a CGMatrix to a Matrix4 object
+
+        return Matrix4(
+            mat[0][0],
+            mat[0][1],
+            mat[0][2],
+            mat[0][3],
+            mat[1][0],
+            mat[1][1],
+            mat[1][2],
+            mat[1][3],
+            mat[2][0],
+            mat[2][1],
+            mat[2][2],
+            mat[2][3],
+            mat[3][0],
+            mat[3][1],
+            mat[3][2],
+            mat[3][3]
+        )
     }
 }

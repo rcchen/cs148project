@@ -14,6 +14,9 @@
 		9F310D801F3C1F2D00D9D963 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F310D7F1F3C1F2D00D9D963 /* Assets.xcassets */; };
 		9F310D831F3C1F2D00D9D963 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F310D811F3C1F2D00D9D963 /* LaunchScreen.storyboard */; };
 		9F310D8C1F3C277B00D9D963 /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F310D8B1F3C277B00D9D963 /* Plane.swift */; };
+		9F4EF90F1F3EE80E00E77672 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F4EF90E1F3EE7F700E77672 /* Accelerate.framework */; };
+		9F4EF9141F3EEBB700E77672 /* VectorMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4EF9121F3EEBB700E77672 /* VectorMath.swift */; };
+		9F4EF9151F3EEBB700E77672 /* VectorMath+SceneKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4EF9131F3EEBB700E77672 /* VectorMath+SceneKit.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +29,9 @@
 		9F310D821F3C1F2D00D9D963 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9F310D841F3C1F2D00D9D963 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9F310D8B1F3C277B00D9D963 /* Plane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plane.swift; sourceTree = "<group>"; };
+		9F4EF90E1F3EE7F700E77672 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		9F4EF9121F3EEBB700E77672 /* VectorMath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VectorMath.swift; path = ../../../../github.com/nicklockwood/VectorMath/VectorMath/VectorMath.swift; sourceTree = "<group>"; };
+		9F4EF9131F3EEBB700E77672 /* VectorMath+SceneKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "VectorMath+SceneKit.swift"; path = "../../../../github.com/nicklockwood/VectorMath/VectorMath/VectorMath+SceneKit.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9F4EF90F1F3EE80E00E77672 /* Accelerate.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,6 +51,7 @@
 			children = (
 				9F310D751F3C1F2D00D9D963 /* cs148project */,
 				9F310D741F3C1F2D00D9D963 /* Products */,
+				9F4EF90D1F3EE7F700E77672 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,6 +66,7 @@
 		9F310D751F3C1F2D00D9D963 /* cs148project */ = {
 			isa = PBXGroup;
 			children = (
+				9F4EF9101F3EEB7F00E77672 /* Libraries */,
 				9F310D8A1F3C276600D9D963 /* Nodes */,
 				9F310D761F3C1F2D00D9D963 /* AppDelegate.swift */,
 				9F310D781F3C1F2D00D9D963 /* art.scnassets */,
@@ -76,6 +85,31 @@
 				9F310D8B1F3C277B00D9D963 /* Plane.swift */,
 			);
 			path = Nodes;
+			sourceTree = "<group>";
+		};
+		9F4EF90D1F3EE7F700E77672 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9F4EF90E1F3EE7F700E77672 /* Accelerate.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9F4EF9101F3EEB7F00E77672 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				9F4EF9111F3EEB8300E77672 /* VectorMath */,
+			);
+			path = Libraries;
+			sourceTree = "<group>";
+		};
+		9F4EF9111F3EEB8300E77672 /* VectorMath */ = {
+			isa = PBXGroup;
+			children = (
+				9F4EF9121F3EEBB700E77672 /* VectorMath.swift */,
+				9F4EF9131F3EEBB700E77672 /* VectorMath+SceneKit.swift */,
+			);
+			path = VectorMath;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -150,6 +184,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9F4EF9151F3EEBB700E77672 /* VectorMath+SceneKit.swift in Sources */,
+				9F4EF9141F3EEBB700E77672 /* VectorMath.swift in Sources */,
 				9F310D7B1F3C1F2D00D9D963 /* ViewController.swift in Sources */,
 				9F310D8C1F3C277B00D9D963 /* Plane.swift in Sources */,
 				9F310D771F3C1F2D00D9D963 /* AppDelegate.swift in Sources */,
@@ -332,6 +368,7 @@
 				9F310D891F3C1F2D00D9D963 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
