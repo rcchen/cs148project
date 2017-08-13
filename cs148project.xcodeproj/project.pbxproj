@@ -20,6 +20,7 @@
 
 /* Begin PBXFileReference section */
 		337229DC1F3F9F4600A03F17 /* CGPoint+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Extensions.swift"; sourceTree = "<group>"; };
+		337229DF1F3FDB5400A03F17 /* NodeCollisionCategory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NodeCollisionCategory.h; sourceTree = "<group>"; };
 		9F310D731F3C1F2D00D9D963 /* cs148project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cs148project.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F310D761F3C1F2D00D9D963 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9F310D781F3C1F2D00D9D963 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -81,6 +82,7 @@
 				9F310D7F1F3C1F2D00D9D963 /* Assets.xcassets */,
 				9F310D811F3C1F2D00D9D963 /* LaunchScreen.storyboard */,
 				9F310D841F3C1F2D00D9D963 /* Info.plist */,
+				337229DF1F3FDB5400A03F17 /* NodeCollisionCategory.h */,
 			);
 			path = cs148project;
 			sourceTree = "<group>";

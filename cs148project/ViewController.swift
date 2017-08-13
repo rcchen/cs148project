@@ -38,6 +38,12 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
 
         // add debug stats
         self.sceneView.showsStatistics = true
+
+        // assign self as contact delegate for handling collisions
+        self.sceneView.scene.physicsWorld.contactDelegate = self
+        
+        // temporarily add the hoop to the scene
+        self.addHoopToScene()
     }
 
     
@@ -99,6 +105,16 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
         // Reset tracking and/or remove existing anchors if consistent tracking is required
     }
 
+    // MARK: - SCNPhysicsContactDelegate
+    
+    let BallCollisionCategory: Int = 0x1 << 1
+    let BasketCollisionCategory: Int = 0x1 << 2
+    
+    func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
+        // TODO
+        print("contact!")
+    }
+
     // MARK: - UIGestureRecognizerDelegate
 
     @IBAction func handleTap(_ sender: UITapGestureRecognizer) {
@@ -117,6 +133,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
     var panStart: CGPoint? = nil
     var panVelocity: CGPoint? = nil
     
+    /**
+     * Figures out how to throw the ball based on how the pan action has started and ended.
+     */
     @IBAction func onPan(_ sender: UIPanGestureRecognizer) {
         if (sender.state == .began) {
             panStart = sender.location(in: self.sceneView)
@@ -137,23 +156,11 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
     }
 
     // MARK: - Utility methods
-    
-    func createPlaneNode(anchor: ARPlaneAnchor) -> SCNNode {
-        let plane = SCNPlane(width: CGFloat(anchor.extent.x), height: CGFloat(anchor.extent.z))
 
-        let grassMaterial = SCNMaterial()
-        grassMaterial.diffuse.contents = #imageLiteral(resourceName: "grass")
-        grassMaterial.isDoubleSided = true
-        plane.materials = [ grassMaterial ]
-
-        let planeNode = SCNNode(geometry: plane)
-        planeNode.position = SCNVector3Make(anchor.center.x, 0, anchor.center.z)
-        
-        planeNode.transform = SCNMatrix4MakeRotation(-Float.pi / 2, 1, 0, 0)
-
-        return planeNode
-    }
-
+    /**
+     * Adds a cube at the hit result.
+     * @deprecated
+     */
     func insertGeometry(hitResult: ARHitTestResult) {
         let dimension = CGFloat(0.1)
         
@@ -177,7 +184,23 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
      * Add a hoop somewhere within the scene, ideally not too far away from the origin.
      */
     func addHoopToScene() {
+        let ringRadius = CGFloat(0.3)
+        let pipeRadius = CGFloat(0.05)
         
+        // we simplify this by only dealing with a torus, and then dealing with hits later
+        let torus = SCNTorus(ringRadius: ringRadius, pipeRadius: pipeRadius)
+        let node = SCNNode(geometry: torus)
+
+        // give it a position somewhere
+        let physicsShape = SCNPhysicsShape(geometry: torus, options: [
+            SCNPhysicsShape.Option.type: SCNPhysicsShape.ShapeType.concavePolyhedron
+        ])
+        node.position = SCNVector3Make(0, -1, -2)
+        node.physicsBody = SCNPhysicsBody(type: .static, shape: physicsShape)
+        node.physicsBody?.isAffectedByGravity = false
+        
+        // add it to the scene
+        self.sceneView.scene.rootNode.addChildNode(node)
     }
     
     /**
@@ -204,10 +227,15 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
         // transform into an SCNVector
         let mSCNDirection = SCNVector3Make(direction.x, direction.y, direction.z)
 
+        // apply positioning and physics to the node
         node.position = pov!
         node.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
         node.physicsBody?.applyForce(mSCNDirection, asImpulse: true)
         node.physicsBody?.mass = 2.0
+
+        // start with collision categories
+//        node.physicsBody?.categoryBitMask = BallCollisionCategory
+//        node.physicsBody?.collisionBitMask = BasketCollisionCategory
         
         self.sceneView.scene.rootNode.addChildNode(node)
     }
