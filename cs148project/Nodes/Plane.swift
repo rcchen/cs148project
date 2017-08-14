@@ -32,8 +32,13 @@ class Plane: SCNNode {
 
         let planeNode = SCNNode(geometry: self.planeGeometry)
         planeNode.position = SCNVector3Make(0, Float(-planeHeight / 2), 0)
-        planeNode.physicsBody = SCNPhysicsBody(type: .kinematic, shape: SCNPhysicsShape(geometry: self.planeGeometry, options: nil))
-        planeNode.physicsBody?.rollingFriction = 0.8
+
+        let physicsBody = SCNPhysicsBody(
+            type: .kinematic,
+            shape: SCNPhysicsShape(geometry: self.planeGeometry, options: nil)
+        )
+        physicsBody.rollingFriction = 0.8
+        planeNode.physicsBody = physicsBody
         
         self.addChildNode(planeNode)
     }

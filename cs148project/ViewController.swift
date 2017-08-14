@@ -6,14 +6,16 @@
 //  Copyright © 2017 Roger Chen. All rights reserved.
 //
 
-import UIKit
-import SceneKit
-import Accelerate
 import ARKit
+import SceneKit
+import UIKit
 
 class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDelegate, UIGestureRecognizerDelegate {
 
     @IBOutlet var sceneView: ARSCNView!
+    
+    var hitMutex: Bool = false // poor man's mutex
+    var hitTargets: Set<Int> = Set()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,27 +27,24 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
         let scene = SCNScene()
         
         // set the scene to the view
-        self.sceneView.scene = scene
-        
+        sceneView.scene = scene
+        sceneView.scene.physicsWorld.contactDelegate = self
+
         // default lighting
-        self.sceneView.autoenablesDefaultLighting = true
+        sceneView.autoenablesDefaultLighting = true
         
         // add debug visualizations
-        self.sceneView.debugOptions = [
+        sceneView.debugOptions = [
             ARSCNDebugOptions.showFeaturePoints,
             ARSCNDebugOptions.showWorldOrigin
         ]
 
         // add debug stats
-        self.sceneView.showsStatistics = true
+        sceneView.showsStatistics = true
 
-        // assign self as contact delegate for handling collisions
-        self.sceneView.scene.physicsWorld.contactDelegate = self
-        
         // temporarily add the hoop to the scene
         self.addHoopToScene()
     }
-
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -107,28 +106,40 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
 
     // MARK: - SCNPhysicsContactDelegate
     
-    let BallCollisionCategory: Int = 1
-    let BasketCollisionCategory: Int = 2
-    
     func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
-        // TODO
-        print("contact!")
+        // figure out which one of the contact nodes is the hoop
+        var hoopNode: Hoop? = nil
+        if (contact.nodeA is Hoop) {
+            hoopNode = contact.nodeA as? Hoop
+        } else if (contact.nodeB is Hoop) {
+            hoopNode = contact.nodeB as? Hoop
+        }
+        
+        // assuming that we actually have a hoop, run through the distance calculations
+        if (hoopNode != nil) {
+            let nodeAPosition = contact.nodeA.presentation.position
+            let nodeBPosition = contact.nodeB.presentation.position
+            
+            let distance = nodeAPosition.distance(vector: nodeBPosition)
+            
+            // we have a bit of a magic number here
+            if (distance < 0.165) {
+                let greenMaterial = SCNMaterial()
+                greenMaterial.diffuse.contents = UIColor.green
+                hoopNode?.geometry?.materials = [ greenMaterial ]
+                if (hitMutex == false) {
+                    let when = DispatchTime.now() + 0.5
+                    hitMutex = true
+                    DispatchQueue.main.asyncAfter(deadline: when) {
+                        print("AVAST")
+                        self.hitMutex = false
+                    }
+                }
+            }
+        }
     }
 
     // MARK: - UIGestureRecognizerDelegate
-
-    @IBAction func handleTap(_ sender: UITapGestureRecognizer) {
-        // action function called when a user taps on the screen
-        // used for testing cube placement in the environment
-
-        let tapPoint = sender.location(in: self.sceneView)
-        let result = self.sceneView.hitTest(tapPoint, types: ARHitTestResult.ResultType.existingPlaneUsingExtent)
-        
-        if (result.count == 0) { return }
-        
-        let hitResult = result.first
-        self.insertGeometry(hitResult: hitResult!)
-    }
 
     var panStart: CGPoint? = nil
     var panVelocity: CGPoint? = nil
@@ -138,11 +149,11 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
      */
     @IBAction func onPan(_ sender: UIPanGestureRecognizer) {
         if (sender.state == .began) {
-            panStart = sender.location(in: self.sceneView)
+            panStart = sender.location(in: sceneView)
         }
 
         if (sender.state == .ended) {
-            panVelocity = sender.velocity(in: self.sceneView)
+            panVelocity = sender.velocity(in: sceneView)
             
             let normalizedPanVelocity = panVelocity?.normalized()
             let velocity = SCNVector3Make(
@@ -158,71 +169,27 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
     // MARK: - Utility methods
 
     /**
-     * Adds a cube at the hit result.
-     * @deprecated
-     */
-    func insertGeometry(hitResult: ARHitTestResult) {
-        let dimension = CGFloat(0.1)
-        
-        let cube = SCNBox(width: dimension, height: dimension, length: dimension, chamferRadius: 0)
-        let node = SCNNode(geometry: cube)
-        
-        node.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
-        node.physicsBody?.mass = 2.0
-
-        let insertionYOffset = Float(0.0)
-        node.position = SCNVector3Make(
-            hitResult.worldTransform.columns.3.x,
-            hitResult.worldTransform.columns.3.y + insertionYOffset,
-            hitResult.worldTransform.columns.3.z
-        )
-
-        self.sceneView.scene.rootNode.addChildNode(node)
-    }
-
-    /**
      * Add a hoop somewhere within the scene, ideally not too far away from the origin.
      */
     func addHoopToScene() {
-        let ringRadius = CGFloat(0.3)
-        let pipeRadius = CGFloat(0.05)
-        
-        // we simplify this by only dealing with a torus, and then dealing with hits later
-        let torus = SCNTorus(ringRadius: ringRadius, pipeRadius: pipeRadius)
-        let node = SCNNode(geometry: torus)
+        // set things to the node
+        let hoop = Hoop()
+        hoop.position = SCNVector3Make(0, 0.2, -2)
 
-        // give it a position somewhere
-        let physicsShape = SCNPhysicsShape(geometry: torus, options: [
-            SCNPhysicsShape.Option.type: SCNPhysicsShape.ShapeType.concavePolyhedron
-        ])
-        node.position = SCNVector3Make(0, -1, -2)
-        node.physicsBody = SCNPhysicsBody(type: .static, shape: physicsShape)
-        node.physicsBody?.isAffectedByGravity = false
-        
-        // assign collision categories needed
-        node.physicsBody?.categoryBitMask = BasketCollisionCategory
-        node.physicsBody?.collisionBitMask = BallCollisionCategory
-        
         // add it to the scene
-        self.sceneView.scene.rootNode.addChildNode(node)
+        sceneView.scene.rootNode.addChildNode(hoop)
     }
     
     /**
      * Throw a ball at the defined velocity. Start position is always from the current point of view.
      */
     func throwBall(velocity: SCNVector3) {
-        let radius = CGFloat(0.1)
-        
-        // initialize the ball that we want to use
-        let sphere = SCNSphere(radius: radius)
-        let node = SCNNode(geometry: sphere)
-
         // get necessary data from the scene camera
-        let camera = self.sceneView.session.currentFrame?.camera
+        let camera = sceneView.session.currentFrame?.camera
         let transformMatrix = camera?.transform
 
         // create start position
-        let pov = self.sceneView.pointOfView?.position
+        let pov = sceneView.pointOfView?.position
         
         // cmompute the overall direction to take
         let adjustedVelocity = float4(-4 * velocity.x, velocity.y, -4, 1)
@@ -231,17 +198,13 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
         // transform into an SCNVector
         let mSCNDirection = SCNVector3Make(direction.x, direction.y, direction.z)
 
-        // apply positioning and physics to the node
-        let physicsShape = SCNPhysicsShape(geometry: sphere)
-        node.position = pov!
-        node.physicsBody = SCNPhysicsBody(type: .dynamic, shape: physicsShape)
-        node.physicsBody?.applyForce(mSCNDirection, asImpulse: true)
-        node.physicsBody?.mass = 2.0
-
-        // start with collision categories
-        node.physicsBody?.categoryBitMask = BallCollisionCategory
-        node.physicsBody?.collisionBitMask = BasketCollisionCategory
+        // create the ball and set its characteristics
+        let ball = Ball()
+        ball.position = pov!
+        ball.physicsBody?.applyForce(mSCNDirection, asImpulse: true)
         
-        self.sceneView.scene.rootNode.addChildNode(node)
+        sceneView.scene.rootNode.addChildNode(ball)
     }
 }
+
+
