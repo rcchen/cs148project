@@ -107,8 +107,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
 
     // MARK: - SCNPhysicsContactDelegate
     
-    let BallCollisionCategory: Int = 0x1 << 1
-    let BasketCollisionCategory: Int = 0x1 << 2
+    let BallCollisionCategory: Int = 1
+    let BasketCollisionCategory: Int = 2
     
     func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
         // TODO
@@ -199,6 +199,10 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
         node.physicsBody = SCNPhysicsBody(type: .static, shape: physicsShape)
         node.physicsBody?.isAffectedByGravity = false
         
+        // assign collision categories needed
+        node.physicsBody?.categoryBitMask = BasketCollisionCategory
+        node.physicsBody?.collisionBitMask = BallCollisionCategory
+        
         // add it to the scene
         self.sceneView.scene.rootNode.addChildNode(node)
     }
@@ -228,14 +232,15 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
         let mSCNDirection = SCNVector3Make(direction.x, direction.y, direction.z)
 
         // apply positioning and physics to the node
+        let physicsShape = SCNPhysicsShape(geometry: sphere)
         node.position = pov!
-        node.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
+        node.physicsBody = SCNPhysicsBody(type: .dynamic, shape: physicsShape)
         node.physicsBody?.applyForce(mSCNDirection, asImpulse: true)
         node.physicsBody?.mass = 2.0
 
         // start with collision categories
-//        node.physicsBody?.categoryBitMask = BallCollisionCategory
-//        node.physicsBody?.collisionBitMask = BasketCollisionCategory
+        node.physicsBody?.categoryBitMask = BallCollisionCategory
+        node.physicsBody?.collisionBitMask = BasketCollisionCategory
         
         self.sceneView.scene.rootNode.addChildNode(node)
     }
