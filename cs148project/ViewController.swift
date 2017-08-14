@@ -13,6 +13,7 @@ import UIKit
 class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDelegate, UIGestureRecognizerDelegate {
 
     @IBOutlet var sceneView: ARSCNView!
+    @IBOutlet var scoreLabel: UILabel!
     
     var hitMutex: Bool = false // poor man's mutex
     var hitTargets: Set<Int> = Set()
@@ -123,7 +124,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
             let distance = nodeAPosition.distance(vector: nodeBPosition)
             
             // we have a bit of a magic number here
-            if (distance < 0.165) {
+            if (distance < 0.18) {
                 let greenMaterial = SCNMaterial()
                 greenMaterial.diffuse.contents = UIColor.green
                 hoopNode?.geometry?.materials = [ greenMaterial ]
@@ -131,8 +132,11 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
                     let when = DispatchTime.now() + 0.5
                     hitMutex = true
                     DispatchQueue.main.asyncAfter(deadline: when) {
-                        print("AVAST")
-                        self.hitMutex = false
+                        self.hitTargets.insert(hoopNode!.id)
+                        self.scoreLabel.text = String(self.hitTargets.count)
+                        self.hitMutex = false                        
+                        hoopNode?.removeFromParentNode()
+                        self.addHoopToScene()
                     }
                 }
             }
