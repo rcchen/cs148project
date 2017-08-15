@@ -134,7 +134,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
                     DispatchQueue.main.asyncAfter(deadline: when) {
                         self.hitTargets.insert(hoopNode!.id)
                         self.scoreLabel.text = String(self.hitTargets.count)
-                        self.hitMutex = false                        
+                        self.hitMutex = false
                         hoopNode?.removeFromParentNode()
                         self.addHoopToScene()
                     }
@@ -176,12 +176,23 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
      * Add a hoop somewhere within the scene, ideally not too far away from the origin.
      */
     func addHoopToScene() {
+        let posX = floatBetween(-0.5, and: 0.5)
+        let posY = floatBetween(-0.5, and: 0.5)
+
         // set things to the node
         let hoop = Hoop()
-        hoop.position = SCNVector3Make(0, 0.2, -2)
+        hoop.position = SCNVector3Make(posX, posY, -2)
 
         // add it to the scene
         sceneView.scene.rootNode.addChildNode(hoop)
+    }
+
+    /**
+     * Generates a random float between upper and lower bound (inclusive)
+     * Taken from https://github.com/farice/ARShooter/blob/master/ARViewer/ViewController.swift#L202
+     */
+    func floatBetween(_ first: Float,  and second: Float) -> Float {
+        return (Float(arc4random()) / Float(UInt32.max)) * (first - second) + second
     }
     
     /**
