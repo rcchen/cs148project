@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  ClassicViewController.swift
 //  cs148project
 //
 //  Created by Roger Chen on 8/9/17.
@@ -10,7 +10,7 @@ import ARKit
 import SceneKit
 import UIKit
 
-class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDelegate, UIGestureRecognizerDelegate {
+class ClassicViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDelegate, UIGestureRecognizerDelegate {
 
     @IBOutlet var sceneView: ARSCNView!
     @IBOutlet var scoreLabel: UILabel!
@@ -75,22 +75,22 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
     // MARK: - ARSCNViewDelegate
 
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-        guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
-
-        let plane = Plane(anchor: planeAnchor)
-        node.addChildNode(plane)
+//        guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
+//
+//        let plane = Plane(anchor: planeAnchor)
+//        node.addChildNode(plane)
     }
 
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
-        guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
-
-        node.enumerateChildNodes {
-            (childNode, _) in
-            childNode.removeFromParentNode()
-        }
-
-        let plane = Plane(anchor: planeAnchor)
-        node.addChildNode(plane)
+//        guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
+//
+//        node.enumerateChildNodes {
+//            (childNode, _) in
+//            childNode.removeFromParentNode()
+//        }
+//
+//        let plane = Plane(anchor: planeAnchor)
+//        node.addChildNode(plane)
     }
     
     func session(_ session: ARSession, didFailWithError error: Error) {
@@ -124,7 +124,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
             let distance = nodeAPosition.distance(vector: nodeBPosition)
             
             // we have a bit of a magic number here
-            if (distance < 0.18) {
+            if (distance < 0.19) {
+                // use material to mark it as hit
                 let greenMaterial = SCNMaterial()
                 greenMaterial.diffuse.contents = UIColor.green
                 hoopNode?.geometry?.materials = [ greenMaterial ]
@@ -132,10 +133,15 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
                     let when = DispatchTime.now() + 0.5
                     hitMutex = true
                     DispatchQueue.main.asyncAfter(deadline: when) {
+                        // insert into the hit targets
                         self.hitTargets.insert(hoopNode!.id)
                         self.scoreLabel.text = String(self.hitTargets.count)
+                        
+                        // remove the mutex and remove the hoop
                         self.hitMutex = false
                         hoopNode?.removeFromParentNode()
+                        
+                        // add a new hoop
                         self.addHoopToScene()
                     }
                 }
@@ -168,6 +174,10 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
             
             self.throwBall(velocity: velocity)
         }
+    }
+
+    @IBAction func endGame(_ sender: UIButton) {
+        dismiss(animated: true, completion: nil)
     }
 
     // MARK: - Utility methods

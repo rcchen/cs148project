@@ -12,9 +12,10 @@
 		337229E31F42328100A03F17 /* Hoop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337229E21F42328100A03F17 /* Hoop.swift */; };
 		337229E51F4239AD00A03F17 /* CollisionCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337229E41F4239AD00A03F17 /* CollisionCategory.swift */; };
 		337229E71F42546A00A03F17 /* SCNVector3+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337229E61F42546A00A03F17 /* SCNVector3+Extensions.swift */; };
+		337229EB1F43AEFD00A03F17 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337229EA1F43AEFD00A03F17 /* MainViewController.swift */; };
 		9F310D771F3C1F2D00D9D963 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F310D761F3C1F2D00D9D963 /* AppDelegate.swift */; };
 		9F310D791F3C1F2D00D9D963 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F310D781F3C1F2D00D9D963 /* art.scnassets */; };
-		9F310D7B1F3C1F2D00D9D963 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F310D7A1F3C1F2D00D9D963 /* ViewController.swift */; };
+		9F310D7B1F3C1F2D00D9D963 /* ClassicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F310D7A1F3C1F2D00D9D963 /* ClassicViewController.swift */; };
 		9F310D7E1F3C1F2D00D9D963 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F310D7C1F3C1F2D00D9D963 /* Main.storyboard */; };
 		9F310D801F3C1F2D00D9D963 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F310D7F1F3C1F2D00D9D963 /* Assets.xcassets */; };
 		9F310D831F3C1F2D00D9D963 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F310D811F3C1F2D00D9D963 /* LaunchScreen.storyboard */; };
@@ -28,10 +29,11 @@
 		337229E21F42328100A03F17 /* Hoop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hoop.swift; sourceTree = "<group>"; };
 		337229E41F4239AD00A03F17 /* CollisionCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollisionCategory.swift; sourceTree = "<group>"; };
 		337229E61F42546A00A03F17 /* SCNVector3+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNVector3+Extensions.swift"; sourceTree = "<group>"; };
+		337229EA1F43AEFD00A03F17 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		9F310D731F3C1F2D00D9D963 /* cs148project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cs148project.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F310D761F3C1F2D00D9D963 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9F310D781F3C1F2D00D9D963 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
-		9F310D7A1F3C1F2D00D9D963 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		9F310D7A1F3C1F2D00D9D963 /* ClassicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassicViewController.swift; sourceTree = "<group>"; };
 		9F310D7D1F3C1F2D00D9D963 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9F310D7F1F3C1F2D00D9D963 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9F310D821F3C1F2D00D9D963 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -85,12 +87,13 @@
 				9F310D8A1F3C276600D9D963 /* Nodes */,
 				9F310D761F3C1F2D00D9D963 /* AppDelegate.swift */,
 				9F310D781F3C1F2D00D9D963 /* art.scnassets */,
-				9F310D7A1F3C1F2D00D9D963 /* ViewController.swift */,
+				9F310D7A1F3C1F2D00D9D963 /* ClassicViewController.swift */,
 				9F310D7C1F3C1F2D00D9D963 /* Main.storyboard */,
 				9F310D7F1F3C1F2D00D9D963 /* Assets.xcassets */,
 				9F310D811F3C1F2D00D9D963 /* LaunchScreen.storyboard */,
 				9F310D841F3C1F2D00D9D963 /* Info.plist */,
 				337229E41F4239AD00A03F17 /* CollisionCategory.swift */,
+				337229EA1F43AEFD00A03F17 /* MainViewController.swift */,
 			);
 			path = cs148project;
 			sourceTree = "<group>";
@@ -185,12 +188,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9F310D7B1F3C1F2D00D9D963 /* ViewController.swift in Sources */,
+				9F310D7B1F3C1F2D00D9D963 /* ClassicViewController.swift in Sources */,
 				337229E31F42328100A03F17 /* Hoop.swift in Sources */,
 				337229E51F4239AD00A03F17 /* CollisionCategory.swift in Sources */,
 				337229E71F42546A00A03F17 /* SCNVector3+Extensions.swift in Sources */,
 				9F310D8C1F3C277B00D9D963 /* Plane.swift in Sources */,
 				337229E11F41E3AB00A03F17 /* Ball.swift in Sources */,
+				337229EB1F43AEFD00A03F17 /* MainViewController.swift in Sources */,
 				337229DD1F3F9F4600A03F17 /* CGPoint+Extensions.swift in Sources */,
 				9F310D771F3C1F2D00D9D963 /* AppDelegate.swift in Sources */,
 			);
