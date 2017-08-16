@@ -13,6 +13,7 @@
 		337229E51F4239AD00A03F17 /* CollisionCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337229E41F4239AD00A03F17 /* CollisionCategory.swift */; };
 		337229E71F42546A00A03F17 /* SCNVector3+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337229E61F42546A00A03F17 /* SCNVector3+Extensions.swift */; };
 		337229EB1F43AEFD00A03F17 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337229EA1F43AEFD00A03F17 /* MainViewController.swift */; };
+		337229ED1F440A7900A03F17 /* FixedPlaneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337229EC1F440A7900A03F17 /* FixedPlaneViewController.swift */; };
 		9F310D771F3C1F2D00D9D963 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F310D761F3C1F2D00D9D963 /* AppDelegate.swift */; };
 		9F310D791F3C1F2D00D9D963 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F310D781F3C1F2D00D9D963 /* art.scnassets */; };
 		9F310D7B1F3C1F2D00D9D963 /* ClassicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F310D7A1F3C1F2D00D9D963 /* ClassicViewController.swift */; };
@@ -30,6 +31,7 @@
 		337229E41F4239AD00A03F17 /* CollisionCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollisionCategory.swift; sourceTree = "<group>"; };
 		337229E61F42546A00A03F17 /* SCNVector3+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNVector3+Extensions.swift"; sourceTree = "<group>"; };
 		337229EA1F43AEFD00A03F17 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		337229EC1F440A7900A03F17 /* FixedPlaneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixedPlaneViewController.swift; sourceTree = "<group>"; };
 		9F310D731F3C1F2D00D9D963 /* cs148project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cs148project.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F310D761F3C1F2D00D9D963 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9F310D781F3C1F2D00D9D963 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 				9F310D841F3C1F2D00D9D963 /* Info.plist */,
 				337229E41F4239AD00A03F17 /* CollisionCategory.swift */,
 				337229EA1F43AEFD00A03F17 /* MainViewController.swift */,
+				337229EC1F440A7900A03F17 /* FixedPlaneViewController.swift */,
 			);
 			path = cs148project;
 			sourceTree = "<group>";
@@ -190,6 +193,7 @@
 			files = (
 				9F310D7B1F3C1F2D00D9D963 /* ClassicViewController.swift in Sources */,
 				337229E31F42328100A03F17 /* Hoop.swift in Sources */,
+				337229ED1F440A7900A03F17 /* FixedPlaneViewController.swift in Sources */,
 				337229E51F4239AD00A03F17 /* CollisionCategory.swift in Sources */,
 				337229E71F42546A00A03F17 /* SCNVector3+Extensions.swift in Sources */,
 				9F310D8C1F3C277B00D9D963 /* Plane.swift in Sources */,
