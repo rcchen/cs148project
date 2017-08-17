@@ -134,6 +134,11 @@
                             <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="31A-N1-KaY">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="2h7-dg-GGL" appends="YES" id="PrY-iI-mef"/>
+                                    <outletCollection property="gestureRecognizers" destination="JYX-sb-rpD" appends="YES" id="sFP-sK-mst"/>
+                                </connections>
                             </arscnView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W9C-5R-xFD">
                                 <rect key="frame" x="149" y="54" width="117" height="30"/>
@@ -146,7 +151,7 @@
                                 <rect key="frame" x="173" y="25" width="68" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tT4-Tl-wcz">
@@ -160,7 +165,7 @@
                                 <rect key="frame" x="311" y="25" width="68" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b8r-4E-NnU">
@@ -175,11 +180,9 @@
                                 <rect key="frame" x="184" y="686" width="46" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Reset"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b5W-nf-w1O">
-                                <rect key="frame" x="348" y="686" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Plane"/>
+                                <connections>
+                                    <action selector="resetScene:" destination="gCB-o9-dMN" eventType="touchUpInside" id="fYO-w0-jge"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -187,10 +190,21 @@
                     </view>
                     <connections>
                         <outlet property="bestLabel" destination="tT4-Tl-wcz" id="cGe-OH-U9p"/>
+                        <outlet property="sceneView" destination="31A-N1-KaY" id="MLQ-8d-U5Y"/>
                         <outlet property="scoreLabel" destination="W9C-5R-xFD" id="mAm-Ig-Jvv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Afd-Jy-V0H" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="2h7-dg-GGL">
+                    <connections>
+                        <action selector="onTapScreen:" destination="gCB-o9-dMN" id="bEe-W1-Eje"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="JYX-sb-rpD">
+                    <connections>
+                        <action selector="onPan:" destination="gCB-o9-dMN" id="jgn-Fj-Cza"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="137.68115942028987" y="802.98913043478262"/>
         </scene>

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		331632171F4555A800B80CFA /* Can.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331632161F4555A800B80CFA /* Can.swift */; };
+		331632191F45D50900B80CFA /* CanBottom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331632181F45D50900B80CFA /* CanBottom.swift */; };
 		337229DD1F3F9F4600A03F17 /* CGPoint+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337229DC1F3F9F4600A03F17 /* CGPoint+Extensions.swift */; };
 		337229E11F41E3AB00A03F17 /* Ball.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337229E01F41E3AA00A03F17 /* Ball.swift */; };
 		337229E31F42328100A03F17 /* Hoop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337229E21F42328100A03F17 /* Hoop.swift */; };
@@ -25,6 +27,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		331632161F4555A800B80CFA /* Can.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Can.swift; sourceTree = "<group>"; };
+		331632181F45D50900B80CFA /* CanBottom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanBottom.swift; sourceTree = "<group>"; };
 		337229DC1F3F9F4600A03F17 /* CGPoint+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Extensions.swift"; sourceTree = "<group>"; };
 		337229E01F41E3AA00A03F17 /* Ball.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ball.swift; sourceTree = "<group>"; };
 		337229E21F42328100A03F17 /* Hoop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hoop.swift; sourceTree = "<group>"; };
@@ -107,6 +111,8 @@
 				9F310D8B1F3C277B00D9D963 /* Plane.swift */,
 				337229E01F41E3AA00A03F17 /* Ball.swift */,
 				337229E21F42328100A03F17 /* Hoop.swift */,
+				331632161F4555A800B80CFA /* Can.swift */,
+				331632181F45D50900B80CFA /* CanBottom.swift */,
 			);
 			path = Nodes;
 			sourceTree = "<group>";
@@ -195,6 +201,8 @@
 				337229E31F42328100A03F17 /* Hoop.swift in Sources */,
 				337229ED1F440A7900A03F17 /* FixedPlaneViewController.swift in Sources */,
 				337229E51F4239AD00A03F17 /* CollisionCategory.swift in Sources */,
+				331632171F4555A800B80CFA /* Can.swift in Sources */,
+				331632191F45D50900B80CFA /* CanBottom.swift in Sources */,
 				337229E71F42546A00A03F17 /* SCNVector3+Extensions.swift in Sources */,
 				9F310D8C1F3C277B00D9D963 /* Plane.swift in Sources */,
 				337229E11F41E3AB00A03F17 /* Ball.swift in Sources */,

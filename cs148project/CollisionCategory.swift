@@ -11,7 +11,5 @@ struct CollisionCategory: OptionSet {
     
     static let Ball = CollisionCategory(rawValue: 1 << 0)
     static let Basket = CollisionCategory(rawValue: 1 << 1)
-    
-//    static let Ball = CollisionCategory(rawValue: -1)
-//    static let Basket = CollisionCategory(rawValue: -1)
+    static let Can = CollisionCategory(rawValue: 1 << 2)
 }

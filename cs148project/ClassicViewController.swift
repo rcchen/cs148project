@@ -36,8 +36,7 @@ class ClassicViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsCont
         
         // add debug visualizations
         sceneView.debugOptions = [
-            ARSCNDebugOptions.showFeaturePoints,
-            ARSCNDebugOptions.showWorldOrigin
+            ARSCNDebugOptions.showFeaturePoints
         ]
 
         // add debug stats
@@ -224,7 +223,7 @@ class ClassicViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsCont
         let mSCNDirection = SCNVector3Make(direction.x, direction.y, direction.z)
 
         // create the ball and set its characteristics
-        let ball = Ball()
+        let ball = Ball(radius: Ball.radius)
         ball.position = pov!
         ball.physicsBody?.applyForce(mSCNDirection, asImpulse: true)
         

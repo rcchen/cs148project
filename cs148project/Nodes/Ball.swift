@@ -11,14 +11,18 @@ import SceneKit
 class Ball: SCNNode {
     static let radius = CGFloat(0.1)
     static let mass = CGFloat(1.0)
-    
-    override init() {
-        super.init()
-        
-        // establish geometry
-        let sphere = SCNSphere(radius: Ball.radius)
-        self.geometry = sphere
 
+    let id: Int
+
+    init(radius: CGFloat) {
+        self.id = Int(arc4random())
+
+        super.init()
+
+        // establish geometry
+        let sphere = SCNSphere(radius: radius)
+        self.geometry = sphere
+        
         // establish physics body
         let shape = SCNPhysicsShape(geometry: sphere, options: nil)
         let physicsBody = SCNPhysicsBody(type: .dynamic, shape: shape)
@@ -27,7 +31,11 @@ class Ball: SCNNode {
         // add collision categories
         physicsBody.categoryBitMask = CollisionCategory.Ball.rawValue
         physicsBody.collisionBitMask = CollisionCategory.Basket.rawValue
+            | CollisionCategory.Can.rawValue
+            | CollisionCategory.Ball.rawValue
         physicsBody.contactTestBitMask = CollisionCategory.Basket.rawValue
+            | CollisionCategory.Can.rawValue
+            | CollisionCategory.Ball.rawValue
         
         // add the physics body to the node
         self.physicsBody = physicsBody
